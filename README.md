@@ -1,7 +1,9 @@
 still work on it ! 
 
 
-
+chmod +x k8s-setup.sh  
+sudo NODE_ROLE=master ./k8s-setup.sh  
+Prepare host for k8s
 
 
 
