@@ -1,0 +1,27 @@
+apiVersion: storage.k8s.io/v1
+kind: StorageClass         ##automaticaly no manually like we spoke before , its possible to do manual as well! 
+metadata:
+  name: standard
+provisioner: kubernetes.io/no-provisioner   ## what is mean - its goint to cut at this folder /mnt/pg-data // nfs server may be kube can do s3 ?? use for it
+volumeBindingMode: WaitForFirstConsumer   ## create and monting this pv well happend only when special pod as it to do only!  no pod no mount
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pv-postgres
+spec:
+  capacity:                ## vidiliaem space on the disk 
+    storage: 5Gi
+  accessModes:
+    - ReadWriteOnce          ## we no need any pods get inside of it! 
+  storageClassName: standard     ##we name it earlie
+  local:
+    path: /mnt/pg-data            ##those file path we crete earlye! 
+  nodeAffinity:                   ## every one have it ! 
+    required:
+      nodeSelectorTerms:
+        - matchExpressions:
+            - key: role
+              operator: In
+              values:
+                - db

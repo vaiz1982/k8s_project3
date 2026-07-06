@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-config
+data:
+  GREETING: "Hello from k8s"
+  VERSION: "2.0.1"
+

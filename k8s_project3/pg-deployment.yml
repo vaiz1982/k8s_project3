@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres     ## was just app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: db             ##was back 
+  template:
+    metadata:
+      labels:
+        app: db                ## was back
+    spec:
+      containers:
+        - name: database-1     ##was backend
+          image: postgres:15          ##change image as well! 
+          env:
+            - name: POSTGRES_DB         ##change here 
+              valueFrom:
+                secretKeyRef:         ##no configMap anymore! 
+                  name: db-access                  ##name of the sercre kubectl get secret 
+                  key: DB_NAME    ##change it here as well was GREETING   ## what key we looking the value - we name it the same GRETing
+            - name: POSTGRES_USER         ##was APP_VERSION
+              valueFrom:
+                secretKeyRef:             ##was configMapKeyRef
+                  name: db-access         ##was app-config
+                  key: DB_USER
+            - name: POSTGRES_PASSWORD       ##SPECIFIC asking !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+              valueFrom:
+                secretKeyRef:
+                  name: db-access
+                  key: DB_PASS
+          ports:
+            - containerPort: 5432   ## was 8000
+          volumeMounts:                      ##NOT CORECT ONE !!!!but we can still use it! 
+            - name: db-storage
+              mountPath: /var/lib/postgresql/data
+      volumes:
+        - name: db-storage
+          emptyDir: {}

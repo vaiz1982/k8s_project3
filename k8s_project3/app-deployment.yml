@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: back
+  template:
+    metadata:
+      labels:
+        app: back
+    spec:
+      containers:
+        - name: backend
+          image: anestesia01/k8s-demo:greet-app-2.0.0
+          env:
+            - name: GREETING
+              valueFrom:
+                configMapKeyRef:
+                  name: app-config
+                  key: GREETING     ## what key we looking the value - we name it the same GRETing
+            - name: APP_VERSION
+              valueFrom:
+                configMapKeyRef:
+                  name: app-config
+                  key: VERSION
+          ports:
+            - containerPort: 8000
+

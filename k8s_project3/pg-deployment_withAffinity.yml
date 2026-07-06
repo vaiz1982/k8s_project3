@@ -1,0 +1,68 @@
+apiVersion: apps/v1
+kind: StatefulSet        ##change here 
+metadata:
+  name: postgres
+spec:
+  serviceName: postgres
+  replicas: 1
+
+  selector:
+    matchLabels:
+      app: pg            ##here 
+
+  template:
+    metadata:
+      labels:
+        app: pg            ##here 
+
+    spec:
+      affinity:                   ##  add afinity
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: role
+                    operator: In
+                    values:
+                      - db
+
+      containers:               ##Do not touch container !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        - name: database-1
+          image: postgres:15
+
+          env:
+            - name: POSTGRES_DB
+              valueFrom:
+                secretKeyRef:
+                  name: db-access
+                  key: DB_NAME
+
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: db-access
+                  key: DB_USER
+
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: db-access
+                  key: DB_PASS
+
+          ports:
+            - containerPort: 5432
+
+          volumeMounts:
+            - name: local-storage
+              mountPath: /var/lib/postgresql/data
+                                                              ##we also delete volumes from previous pg-deploy.yml...
+  volumeClaimTemplates:                       ## set here of ther rest! 
+    - metadata:
+        name: local-storage
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        storageClassName: standard
+        resources:
+          requests:
+            storage: 5Gi
