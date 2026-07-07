@@ -1,3 +1,7 @@
+2 vCPU 4 GiB 20 GiB   // last time not space for project at least here!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+
+
 still work on it ! 
 
 
