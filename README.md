@@ -1,5 +1,5 @@
 2 vCPU 4 GiB 20 GiB   // last time not space for project at least here!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
+t2.medium
 
 
 <img width="780" height="309" alt="Screenshot 2026-07-06 at 21 37 36" src="https://github.com/user-attachments/assets/0f196e79-91fd-43ff-820a-8c575422d5a1" />
